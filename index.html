@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0b14">
+<title>KpopZone</title>
+<style>
+:root{--bg:#0d0b14;--s1:#171324;--s2:#211a33;--bd:#2d2545;--tx:#f4effa;--mu:#9d93b5;--p:#ff4d8d;--v:#8b5cf6;--g:linear-gradient(135deg,#ff4d8d,#8b5cf6)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(600px 320px at 85% -5%,rgba(139,92,246,.28),transparent),radial-gradient(500px 300px at 0% 12%,rgba(255,77,141,.2),transparent)}
+.bar{position:sticky;top:0;z-index:5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(13,11,20,.78);border-bottom:1px solid var(--bd)}
+.bar .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{font-weight:800;font-size:21px;letter-spacing:-.5px;cursor:pointer}
+.logo b{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{display:flex;gap:4px}
+nav button{background:none;border:0;color:var(--mu);font:inherit;font-size:14px;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer}
+nav button.on{background:var(--s2);color:var(--tx)}
+.w{max-width:960px;margin:0 auto;padding:16px 16px 40px}
+h1,h2,h3{margin:0}
+.mu{color:var(--mu)}.note{color:var(--mu);font-size:13px}
+.title{font-size:30px;line-height:1.15;font-weight:800;margin:10px 0 6px;letter-spacing:-.8px}
+.title span{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.search{position:relative;margin-top:14px}
+.search input{width:100%;padding:14px 16px 14px 44px;border-radius:16px;border:1px solid var(--bd);background:var(--s1);color:var(--tx);font-size:16px;outline:none}
+.search input:focus{border-color:var(--p)}
+.search i{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-style:normal;opacity:.6}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.chip{flex:none;border:1px solid var(--bd);background:var(--s1);color:var(--mu);padding:8px 16px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer}
+.chip.on{background:var(--g);color:#fff;border-color:transparent}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-top:14px}
+.ph{background:var(--g) center top/cover;color:#fff;display:grid;place-items:center;font-weight:800}
+.gc{position:relative;border:0;padding:0;border-radius:20px;overflow:hidden;aspect-ratio:3/4;cursor:pointer;color:#fff;text-align:left;font:inherit;background:var(--s2)}
+.gc .ph{position:absolute;inset:0;font-size:52px}
+.gc .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88),transparent 58%)}
+.gc .tx{position:absolute;left:12px;right:12px;bottom:11px}
+.gc b{display:block;font-size:17px;line-height:1.2}.gc small{opacity:.8;font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--s1);border:1px solid var(--bd);color:var(--tx);padding:8px 14px;border-radius:999px;font:inherit;font-size:14px;cursor:pointer}
+.btn{background:var(--g);color:#fff;border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.btn:disabled{opacity:.5}
+.hero{position:relative;border-radius:24px;overflow:hidden;padding:20px;margin:14px 0;border:1px solid var(--bd);background:var(--s1)}
+.hero .bg{position:absolute;inset:-30px;background:var(--g) center/cover;filter:blur(30px) brightness(.55);opacity:.95}
+.hero .c{position:relative;display:flex;gap:16px;align-items:center}
+.hero.m .c{flex-direction:column;text-align:center}
+.pic{width:118px;height:118px;border-radius:22px;flex:none;border:3px solid rgba(255,255,255,.18);font-size:42px}
+.pic.round{width:168px;height:168px;border-radius:50%;font-size:58px}
+.hero h1{font-size:30px;font-weight:800;letter-spacing:-.8px;line-height:1.1}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st{background:var(--s1);border:1px solid var(--bd);border-radius:16px;padding:12px 14px}
+.st small{display:block;color:var(--mu);font-size:11px;text-transform:uppercase;letter-spacing:.7px}
+.st b{font-size:16px}
+.sec{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:28px 0 4px}
+.sec h2{font-size:20px;font-weight:800}
+.mcard{background:var(--s1);border:1px solid var(--bd);border-radius:18px;padding:14px 8px;text-align:center;color:inherit;font:inherit;cursor:pointer}
+.mcard:active,.mcard:hover{border-color:var(--p)}
+.mcard .ph{width:84px;height:84px;border-radius:50%;margin:0 auto 8px;font-size:30px}
+.mcard b{display:block}.mcard small{display:block;color:var(--mu);font-size:12px;line-height:1.3}
+.nw{background:var(--s1);border:1px solid var(--bd);border-left:4px solid var(--p);border-radius:16px;padding:12px 14px;margin:10px 0}
+.nw.issue{border-left-color:#f59f00}.nw.activity{border-left-color:var(--v)}
+.tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.6px;padding:2px 9px;border-radius:999px;background:var(--p);color:#fff;margin-bottom:4px}
+.nw.issue .tag{background:#f59f00}.nw.activity .tag{background:var(--v)}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:20px}
+.empty{padding:30px 10px;text-align:center}
+</style></head>
+<body>
+<header class="bar"><div class="in">
+<span class="logo" onclick="go([])">Kpop<b>Zone</b></span>
+<nav><button id="t1" onclick="go([])">Groups</button><button id="t2" onclick="go(['a'])">Agencies</button></nav>
+</div></header>
+<main class="w" id="app"></main>
+<script>
+// ====== DATA: edit / add your own here ======
+// Act format: [name, agency, debut year, fandom, [members], "Soloist" (optional)]
+// Member format: ["stage name","real name","birthday YYYY-MM-DD","position"]
+// Leave "" for anything you're not sure about (it shows as "-")
+var RAW=[
+["BTS","BIGHIT MUSIC",2013,"ARMY",[
+ ["RM","Kim Namjoon","1994-09-12","Leader, Rapper"],
+ ["Jin","Kim Seokjin","1992-12-04","Vocalist"],
+ ["SUGA","Min Yoongi","1993-03-09","Rapper"],
+ ["j-hope","Jung Hoseok","1994-02-18","Rapper, Dancer"],
+ ["Jimin","Park Jimin","1995-10-13","Vocalist, Dancer"],
+ ["V","Kim Taehyung","1995-12-30","Vocalist"],
+ ["Jungkook","Jeon Jungkook","1997-09-01","Main Vocalist, Maknae"]]],
+["BLACKPINK","YG Entertainment",2016,"BLINK",[
+ ["Jisoo","Kim Jisoo","1995-01-03","Vocalist, Visual"],
+ ["Jennie","Kim Jennie","1996-01-16","Main Rapper, Vocalist"],
+ ["Rosé","Park Chaeyoung (Roseanne Park)","1997-02-11","Main Vocalist"],
+ ["Lisa","Pranpriya Manobal (Lalisa Manobal)","1997-03-27","Main Dancer, Rapper, Maknae"]]],
+["Stray Kids","JYP Entertainment",2018,"STAY",[
+ ["Bang Chan","Christopher Bang","1997-10-03","Leader, Producer"],
+ ["Lee Know","Lee Minho","1998-10-25","Dancer"],
+ ["Changbin","Seo Changbin","1999-08-11","Rapper"],
+ ["Hyunjin","Hwang Hyunjin","2000-03-20","Dancer, Rapper"],
+ ["Han","Han Jisung","2000-09-14","Rapper"],
+ ["Felix","Lee Felix (Lee Yongbok)","2000-09-15","Dancer, Rapper"],
+ ["Seungmin","Kim Seungmin","2000-09-22","Vocalist"],
+ ["I.N","Yang Jeongin","2001-02-08","Vocalist, Maknae"]]],
+["TWICE","JYP Entertainment",2015,"ONCE",[
+ ["Nayeon","Im Nayeon","1995-09-22","Lead Vocalist"],
+ ["Jeongyeon","Yoo Jeongyeon","1996-11-01","Vocalist"],
+ ["Momo","Hirai Momo","1996-11-09","Main Dancer"],
+ ["Sana","Minatozaki Sana","1996-12-29","Vocalist"],
+ ["Jihyo","Park Jihyo","1997-02-01","Leader, Main Vocalist"],
+ ["Mina","Myoui Mina","1997-03-24","Main Dancer"],
+ ["Dahyun","Kim Dahyun","1998-05-28","Lead Rapper"],
+ ["Chaeyoung","Son Chaeyoung","1999-04-23","Main Rapper"],
+ ["Tzuyu","Chou Tzuyu","1999-06-14","Lead Dancer, Maknae"]]],
+["SEVENTEEN","PLEDIS Entertainment",2015,"CARAT",[
+ ["S.Coups","Choi Seungcheol","1995-08-08","Leader, Hip-hop Team"],
+ ["Jeonghan","Yoon Jeonghan","1995-10-04","Vocal Team"],
+ ["Joshua","Hong Jisoo (Joshua Hong)","1995-12-30","Vocal Team"],
+ ["Jun","Wen Junhui","1996-06-10","Performance Team"],
+ ["Hoshi","Kwon Soonyoung","1996-06-15","Performance Team Leader"],
+ ["Wonwoo","Jeon Wonwoo","1996-07-17","Hip-hop Team"],
+ ["Woozi","Lee Jihoon","1996-11-22","Vocal Team Leader, Producer"],
+ ["DK","Lee Seokmin (Dokyeom)","1997-02-18","Main Vocal"],
+ ["Mingyu","Kim Mingyu","1997-04-06","Hip-hop Team"],
+ ["The8","Xu Minghao","1997-11-07","Performance Team"],
+ ["Seungkwan","Boo Seungkwan","1998-01-16","Vocal Team"],
+ ["Vernon","Hansol Vernon Chwe","1998-02-18","Hip-hop Team"],
+ ["Dino","Lee Chan","1999-02-11","Performance Team, Maknae"]]],
+["NewJeans","ADOR",2022,"Bunnies",[
+ ["Minji","Kim Minji","2004-05-07","Member"],
+ ["Hanni","Pham Ngoc Han (Hanni Pham)","2004-10-06","Member"],
+ ["Danielle","Danielle Marsh","2005-04-11","Member"],
+ ["Haerin","Kang Haerin","2006-05-15","Member"],
+ ["Hyein","Lee Hyein","2008-04-21","Member, Maknae"]]],
+["aespa","SM Entertainment",2020,"MY",[
+ ["Karina","Yu Jimin","2000-04-11","Leader, Main Dancer, Lead Rapper"],
+ ["Giselle","Aeri Uchinaga","2000-10-30","Main Rapper"],
+ ["Winter","Kim Minjeong","2001-01-01","Main Vocalist"],
+ ["Ningning","Ning Yizhuo","2002-10-23","Main Vocalist, Maknae"]]],
+["IVE","Starship Entertainment",2021,"DIVE",[
+ ["Yujin","An Yujin","2003-09-01","Leader"],
+ ["Gaeul","Kim Gaeul","2002-09-24","Rapper"],
+ ["Rei","Naoi Rei","2004-02-03","Rapper"],
+ ["Wonyoung","Jang Wonyoung","2004-08-31","Center, Vocalist"],
+ ["Liz","Kim Jiwon","2004-11-21","Vocalist"],
+ ["Leeseo","Lee Hyunseo","2007-02-21","Maknae"]]],
+["LE SSERAFIM","SOURCE MUSIC",2022,"FEARNOT",[
+ ["Sakura","Miyawaki Sakura","1998-03-19","Vocalist"],
+ ["Chaewon","Kim Chaewon","2000-08-01","Leader"],
+ ["Yunjin","Huh Yunjin","2001-10-08","Vocalist"],
+ ["Kazuha","Nakamura Kazuha","2003-08-09","Dancer"],
+ ["Eunchae","Hong Eunchae","2006-11-10","Maknae"]]],
+["(G)I-DLE","Cube Entertainment",2018,"Neverland",[
+ ["Miyeon","Cho Miyeon","1997-01-31","Vocalist"],
+ ["Minnie","Nicha Yontararak","1997-10-23","Vocalist"],
+ ["Soyeon","Jeon Soyeon","1998-08-26","Leader, Main Rapper, Producer"],
+ ["Yuqi","Song Yuqi","1999-09-23","Vocalist, Dancer"],
+ ["Shuhua","Yeh Shuhua","2000-01-06","Visual, Vocalist, Maknae"]]],
+["EXO","SM Entertainment",2012,"EXO-L",[
+ ["Xiumin","Kim Minseok","1990-03-26","Vocalist"],
+ ["Suho","Kim Junmyeon","1991-05-22","Leader, Vocalist"],
+ ["Lay","Zhang Yixing","1991-10-07","Vocalist, Dancer"],
+ ["Baekhyun","Byun Baekhyun","1992-05-06","Main Vocalist"],
+ ["Chen","Kim Jongdae","1992-09-21","Main Vocalist"],
+ ["Chanyeol","Park Chanyeol","1992-11-27","Main Rapper"],
+ ["D.O.","Do Kyungsoo","1993-01-12","Main Vocalist"],
+ ["Kai","Kim Jongin","1994-01-14","Main Dancer"],
+ ["Sehun","Oh Sehun","1994-04-12","Lead Dancer, Maknae"]]],
+["Red Velvet","SM Entertainment",2014,"ReVeluv",[
+ ["Irene","Bae Joohyun","1991-03-29","Leader, Rapper"],
+ ["Seulgi","Kang Seulgi","1994-02-10","Main Dancer"],
+ ["Wendy","Son Seungwan","1994-02-21","Main Vocalist"],
+ ["Joy","Park Sooyoung","1996-09-03","Vocalist"],
+ ["Yeri","Kim Yerim","1999-03-05","Maknae"]]],
+["TXT","BIGHIT MUSIC",2019,"MOA",[
+ ["Soobin","Choi Soobin","2000-12-05","Leader"],
+ ["Yeonjun","Choi Yeonjun","1999-09-13","Rapper, Dancer"],
+ ["Beomgyu","Choi Beomgyu","2001-03-13","Vocalist"],
+ ["Taehyun","Kang Taehyun","2002-02-05","Vocalist"],
+ ["Huening Kai","Kai Kamal Huening","2002-08-14","Vocalist, Maknae"]]],
+["ATEEZ","KQ Entertainment",2018,"ATINY",[
+ ["Hongjoong","Kim Hongjoong","1998-11-07","Leader, Rapper"],
+ ["Seonghwa","Park Seonghwa","1998-04-03","Vocalist"],
+ ["Yunho","Jeong Yunho","1999-03-23","Vocalist, Dancer"],
+ ["Yeosang","Kang Yeosang","1999-06-15","Vocalist"],
+ ["San","Choi San","1999-07-10","Vocalist, Dancer"],
+ ["Mingi","Song Mingi","1999-08-09","Rapper"],
+ ["Wooyoung","Jung Wooyoung","1999-11-26","Vocalist, Dancer"],
+ ["Jongho","Choi Jongho","2000-10-12","Main Vocalist, Maknae"]]],
+["ITZY","JYP Entertainment",2019,"MIDZY",[
+ ["Yeji","Hwang Yeji","2000-05-26","Leader, Dancer, Vocalist"],
+ ["Lia","Choi Jisu","2000-07-21","Main Vocalist"],
+ ["Ryujin","Shin Ryujin","2001-04-17","Main Rapper, Dancer"],
+ ["Chaeryeong","Lee Chaeryeong","2001-06-05","Dancer, Rapper"],
+ ["Yuna","Shin Yuna","2003-12-09","Visual, Maknae"]]],
+["BABYMONSTER","YG Entertainment",2024,"MONSTIEZ",[
+ ["Ruka","","2002-03-20","Member"],
+ ["Pharita","Pharita Boonpakdeetham","2005-08-26","Member"],
+ ["Asa","Enami Asa","2006-04-17","Member"],
+ ["Ahyeon","Jung Ahyeon","2007-04-11","Member"],
+ ["Rami","","","Member"],
+ ["Rora","","","Member"],
+ ["Chiquita","","2009-02-17","Member, Maknae"]]],
+["NCT DREAM","SM Entertainment",2016,"NCTzen",[
+ ["Mark","Mark Lee (Lee Minhyung)","1999-08-02","Rapper"],
+ ["Renjun","Huang Renjun","2000-03-23","Vocalist"],
+ ["Jeno","Lee Jeno","2000-04-23","Rapper, Vocalist"],
+ ["Haechan","Lee Donghyuck","2000-06-06","Main Vocalist"],
+ ["Jaemin","Na Jaemin","2000-08-13","Rapper, Vocalist"],
+ ["Chenle","Zhong Chenle","2001-11-22","Main Vocalist"],
+ ["Jisung","Park Jisung","2002-02-05","Rapper, Dancer, Maknae"]]],
+["ENHYPEN","BELIFT LAB",2020,"ENGENE",[
+ ["Jungwon","Yang Jungwon","2004-02-09","Leader, Vocalist"],
+ ["Jay","Park Jongseong (Jay Park)","2002-04-20","Vocalist, Dancer"],
+ ["Jake","Sim Jaeyun (Jake Sim)","2002-11-15","Vocalist"],
+ ["Sunghoon","Park Sunghoon","2002-12-08","Vocalist, Dancer"],
+ ["Sunoo","Kim Sunoo","2003-06-24","Vocalist"],
+ ["Ni-ki","Nishimura Riki","2005-12-09","Main Dancer, Maknae"]]],
+["ZEROBASEONE","WAKEONE",2023,"ZEROSE",[
+ ["Hanbin","Sung Hanbin","2001-06-13","Leader"],
+ ["Jiwoong","Kim Jiwoong","1998-12-14","Member"],
+ ["Zhang Hao","Zhang Hao","2000-07-25","Member"],
+ ["Matthew","Seok Matthew","2002-05-28","Member"],
+ ["Taerae","Kim Taerae","2003-07-14","Member"],
+ ["Ricky","Shen Quanrui","2004-05-20","Member"],
+ ["Gyuvin","Kim Gyuvin","2004-09-03","Member"],
+ ["Gunwook","Park Gunwook","2005-01-10","Member"],
+ ["Yujin","Han Yujin","2007-09-04","Member, Maknae"]]],
+["RIIZE","SM Entertainment",2023,"BRIIZE",[
+ ["Shotaro","Osaki Shotaro","2000-11-25","Member"],
+ ["Eunseok","Song Eunseok","","Member"],
+ ["Sungchan","Jung Sungchan","2001-09-13","Member"],
+ ["Wonbin","Park Wonbin","","Member"],
+ ["Seunghan","Han Seunghan","","Member"],
+ ["Sohee","Lee Sohee","","Member"],
+ ["Anton","Lee Chanyoung","","Member, Maknae"]]],
+["SHINee","SM Entertainment",2008,"SHAWOL",[
+ ["Onew","Lee Jinki","1989-12-14","Leader, Main Vocalist"],
+ ["Key","Kim Kibum","1991-09-23","Vocalist"],
+ ["Minho","Choi Minho","1991-12-09","Rapper"],
+ ["Taemin","Lee Taemin","1993-07-18","Main Dancer, Vocalist"]]],
+["BIGBANG","YG Entertainment",2006,"VIP",[
+ ["G-Dragon","Kwon Jiyong","1988-08-18","Leader, Rapper"],
+ ["Taeyang","Dong Youngbae","1988-05-18","Main Vocalist"],
+ ["Daesung","Kang Daesung","1989-04-26","Main Vocalist"]]],
+["Super Junior","SM Entertainment",2005,"ELF",[
+ ["Leeteuk","Park Jungsoo","1983-07-01","Leader, Vocalist"],
+ ["Heechul","Kim Heechul","1983-07-10","Vocalist"],
+ ["Yesung","Kim Jongwoon","1984-08-24","Main Vocalist"],
+ ["Shindong","Shin Donghee","1985-09-28","Dancer"],
+ ["Eunhyuk","Lee Hyukjae","1986-04-04","Rapper, Dancer"],
+ ["Donghae","Lee Donghae","1986-10-15","Dancer, Vocalist"],
+ ["Siwon","Choi Siwon","1986-04-07","Visual, Vocalist"],
+ ["Ryeowook","Kim Ryeowook","1987-06-21","Main Vocalist"],
+ ["Kyuhyun","Cho Kyuhyun","1988-02-03","Main Vocalist"]]],
+["GOT7","JYP Entertainment",2014,"Ahgase",[
+ ["Mark","Mark Tuan","1993-09-04","Rapper"],
+ ["JB","Im Jaebum","1994-01-06","Leader, Vocalist"],
+ ["Jackson","Wang Jiaer (Jackson Wang)","1994-03-28","Rapper, Dancer"],
+ ["Jinyoung","Park Jinyoung","1994-09-22","Vocalist"],
+ ["Youngjae","Choi Youngjae","1996-09-17","Main Vocalist"],
+ ["BamBam","Kunpimook Bhuwakul","1997-05-02","Rapper, Vocalist"],
+ ["Yugyeom","Kim Yugyeom","1997-11-17","Dancer, Maknae"]]],
+["Girls' Generation","SM Entertainment",2007,"SONE",[
+ ["Taeyeon","Kim Taeyeon","1989-03-09","Leader, Main Vocalist"],
+ ["Sunny","Lee Soonkyu","1989-05-15","Vocalist"],
+ ["Tiffany","Tiffany Young (Hwang Miyoung)","1989-08-01","Vocalist"],
+ ["Hyoyeon","Kim Hyoyeon","1989-09-22","Main Dancer"],
+ ["Yuri","Kwon Yuri","1989-12-05","Dancer, Vocalist"],
+ ["Sooyoung","Choi Sooyoung","1990-02-10","Vocalist"],
+ ["Yoona","Im Yoona","1990-05-30","Visual, Vocalist"],
+ ["Seohyun","Seo Joohyun","1991-06-28","Vocalist, Maknae"]]],
+["2NE1","YG Entertainment",2009,"Blackjack",[
+ ["CL","Lee Chaerin","1991-02-26","Leader, Main Rapper"],
+ ["Minzy","Gong Minji","1994-01-18","Main Dancer, Vocalist, Maknae"],
+ ["Dara","Sandara Park","1984-11-12","Vocalist"],
+ ["Bom","Park Bom","1984-03-24","Main Vocalist"]]],
+["MAMAMOO","RBW",2014,"MooMoo",[
+ ["Solar","Kim Yongsun","1991-02-21","Leader, Main Vocalist"],
+ ["Moonbyul","Moon Byulyi","1992-12-22","Main Rapper"],
+ ["Wheein","Jung Wheein","1995-04-17","Main Vocalist"],
+ ["Hwasa","Ahn Hyejin","1995-07-23","Vocalist, Rapper"]]],
+
+// ===== SOLOISTS =====
+["IU","EDAM Entertainment",2008,"Uaena",[["IU","Lee Jieun","1993-05-16","Singer-songwriter, Actress"]],"Soloist"],
+["G-Dragon","Galaxy Corporation",2006,"VIP",[["G-Dragon","Kwon Jiyong","1988-08-18","Rapper, Producer"]],"Soloist"],
+["PSY","P NATION",2001,"-",[["PSY","Park Jaesang","1977-12-31","Singer, Rapper"]],"Soloist"],
+["BoA","SM Entertainment",2000,"-",[["BoA","Kwon Boa","1986-11-05","Singer, Dancer"]],"Soloist"],
+["Rain","RAINCOMPANY",2002,"-",[["Rain","Jung Jihoon","1982-06-25","Singer, Actor"]],"Soloist"],
+["Sunmi","ABYSS Company",2007,"-",[["Sunmi","Lee Sunmi","1992-05-02","Singer-songwriter"]],"Soloist"],
+["Zico","KOZ Entertainment",2011,"-",[["Zico","Woo Jiho","1992-09-14","Rapper, Producer"]],"Soloist"],
+["Jay Park","MORE VISION",2008,"-",[["Jay Park","Park Jaebeom","1987-04-25","Rapper, Singer, Producer"]],"Soloist"],
+["Chungha","MNH Entertainment",2016,"-",[["Chungha","Kim Chungha","1996-02-09","Singer, Dancer"]],"Soloist"],
+["Kang Daniel","KONNECT Entertainment",2017,"-",[["Kang Daniel","Kang Euigeon","1996-12-10","Singer"]],"Soloist"]
+];
+
+// ====== AGENCY INFO (leave a field out if unknown) ======
+var AG={
+"BIGHIT MUSIC":{parent:"HYBE",founded:2005,founder:"Bang Si-hyuk"},
+"PLEDIS Entertainment":{parent:"HYBE",founded:2007,founder:"Han Sung-soo"},
+"ADOR":{parent:"HYBE",founded:2021,founder:"Min Hee-jin"},
+"SOURCE MUSIC":{parent:"HYBE"},
+"BELIFT LAB":{parent:"HYBE"},
+"SM Entertainment":{founded:1995,founder:"Lee Soo-man"},
+"JYP Entertainment":{founded:1997,founder:"J.Y. Park"},
+"YG Entertainment":{founded:1996,founder:"Yang Hyun-suk"},
+"Starship Entertainment":{founded:2008},
+"Cube Entertainment":{founded:2006,founder:"Hong Seung-sung"},
+"RBW":{founded:2010,founder:"Kim Do-hoon"},
+"P NATION":{founded:2018,founder:"PSY"},
+"KQ Entertainment":{},
+"WAKEONE":{}
+};
+</script>
+<script>
+var G=RAW.map(function(a){return{name:a[0],co:a[1],debut:a[2],fan:a[3],type:a[5]||"Group",mem:a[4].map(function(m){return{n:m[0],real:m[1],born:m[2],pos:m[3]}})}});
+
+var MODEL="claude-sonnet-5-5";
+var app=document.getElementById("app");
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+var news=load("kz_news_en",{}),imgs=load("kz_img",{}),extra=load("kz_groups",[]);
+G=G.concat(extra);
+var flt="All";
+
+function h(t,p,k){var e=document.createElement(t);for(var i in(p||{}))i==="class"?e.className=p[i]:e[i]=p[i];(k||[]).forEach(function(c){e.append(c)});return e}
+function fmt(d){if(!d)return"-";return new Date(d+"T00:00:00").toLocaleDateString("en-US",{day:"numeric",month:"long",year:"numeric"})}
+function age(d){if(!d)return"-";var b=new Date(d+"T00:00:00"),n=new Date(),a=n.getFullYear()-b.getFullYear();if(n<new Date(n.getFullYear(),b.getMonth(),b.getDate()))a--;return a+" years old"}
+function cat(g){var p=(AG[g.co]||{}).parent||g.co;if(p==="HYBE")return"HYBE";if(/^JYP/.test(p))return"JYP";if(/^SM/.test(p))return"SM";if(/^YG/.test(p))return"YG";return"Others"}
+function stat(l,v){return h("div",{class:"st"},[h("small",{textContent:l}),h("b",{textContent:String(v||"-")})])}
+function initials(n){return n.split(/[\s\/]+/).map(function(w){return w[0]}).join("").slice(0,3).toUpperCase()}
+function agencyList(){var m={};G.forEach(function(g){(m[g.co]=m[g.co]||[]).push(g)});return Object.keys(m).map(function(k){return{name:k,acts:m[k]}}).sort(function(a,b){return b.acts.length-a.acts.length||a.name.localeCompare(b.name)})}
+
+// ====== NAVIGATION (phone back button works) ======
+function go(p){location.hash="#"+p.map(function(x){return encodeURIComponent(x)}).join("/")}
+function route(){
+  var p=location.hash.slice(1).split("/").map(decodeURIComponent);
+  window.scrollTo(0,0);
+  document.getElementById("t1").className=p[0]==="a"?"":"on";
+  document.getElementById("t2").className=p[0]==="a"?"on":"";
+  var g=G.find(function(x){return x.name===p[1]});
+  if(p[0]==="g"&&g)return detail(g);
+  if(p[0]==="m"&&g&&g.mem[+p[2]])return memberPage(g,+p[2]);
+  if(p[0]==="a")return p[1]&&G.some(function(x){return x.co===p[1]})?agency(p[1]):agencies();
+  home();
+}
+window.onhashchange=route;
+
+// ====== PHOTOS: auto-loaded from Wikipedia ======
+async function wikiImg(q){
+  if(q in imgs)return imgs[q];
+  try{
+    var u="https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch="+encodeURIComponent(q)+"&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=500&format=json&origin=*";
+    var d=await (await fetch(u)).json();
+    var p=d.query&&Object.values(d.query.pages)[0];
+    var s=p&&p.thumbnail?p.thumbnail.source:"";
+    imgs[q]=s;save("kz_img",imgs);return s;
+  }catch(e){return ""}
+}
+function paint(el,q,label){
+  el.textContent=label?label[0]:"";
+  wikiImg(q).then(function(s){if(s){el.style.backgroundImage='url("'+s+'")';el.textContent=""}});
+  return el;
+}
+function gq(g){return g.type==="Soloist"?g.name+" singer":g.name+" K-pop group"}
+function mq(g,m){return g.type==="Soloist"?gq(g):m.n+" "+g.name+" member"}
+
+// ====== AI (only for latest news + searching new groups) ======
+function getKey(){
+  var k=localStorage.getItem("kpop_key");
+  if(!k){k=prompt("Paste your Anthropic API key (stored only in this browser):");if(k)localStorage.setItem("kpop_key",k.trim())}
+  return k&&k.trim();
+}
+async function askAI(prompt){
+  var key=getKey();if(!key)throw new Error("No API key");
+  var r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{
+    "content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01",
+    "anthropic-dangerous-direct-browser-access":"true"},
+    body:JSON.stringify({model:MODEL,max_tokens:2000,messages:[{role:"user",content:prompt}],
+      tools:[{type:"web_search_20250305",name:"web_search"}]})});
+  var d=await r.json();
+  if(!r.ok){if(r.status===401)localStorage.removeItem("kpop_key");throw new Error(d.error&&d.error.message||"Error")}
+  var text=d.content.filter(function(c){return c.type==="text"}).map(function(c){return c.text}).join("\n");
+  return JSON.parse(text.match(/[\[{][\s\S]*[\]}]/)[0]);
+}
+
+// ====== ACT CARD (group or soloist) ======
+function actCard(g){
+  var ph=h("div",{class:"ph"});paint(ph,gq(g),g.name);
+  var sub=g.type==="Soloist"?"Soloist · "+g.debut:g.mem.length+" members · "+g.debut;
+  return h("button",{class:"gc",onclick:function(){go(["g",g.name])}},[ph,h("div",{class:"ov"}),
+    h("div",{class:"tx"},[h("b",{textContent:g.name}),h("small",{textContent:sub})])]);
+}
+
+// ====== SCREEN: ALL ACTS ======
+function home(){
+  app.replaceChildren();
+  var inp=h("input",{placeholder:"Search groups & soloists…",type:"search"});
+  var chips=h("div",{class:"chips"});
+  var grid=h("div",{class:"grid"});
+  var solo=G.filter(function(g){return g.type==="Soloist"}).length;
+  app.append(
+    h("div",{class:"title"},["Discover your next ",h("span",{textContent:"favorite act"})]),
+    h("div",{class:"mu",textContent:(G.length-solo)+" groups · "+solo+" soloists · "+agencyList().length+" agencies"}),
+    h("div",{class:"search"},[h("i",{textContent:"🔍"}),inp]),chips,grid);
+  function draw(){
+    var v=inp.value.trim().toLowerCase();grid.replaceChildren();grid.style.display="";
+    chips.replaceChildren();
+    ["All","Groups","Soloists","HYBE","JYP","SM","YG","Others"].forEach(function(c){
+      chips.append(h("button",{class:"chip"+(c===flt?" on":""),textContent:c,onclick:function(){flt=c;draw()}}))});
+    var list=G.filter(function(g){
+      var ok=flt==="All"||(flt==="Groups"&&g.type==="Group")||(flt==="Soloists"&&g.type==="Soloist")||cat(g)===flt;
+      return ok&&g.name.toLowerCase().indexOf(v)>-1});
+    list.forEach(function(g){grid.append(actCard(g))});
+    if(!list.length){
+      grid.style.display="block";
+      grid.append(h("div",{class:"empty mu",textContent:"Nothing found."}));
+      if(v){var b=h("button",{class:"btn",textContent:"Search “"+inp.value.trim()+"” with AI",onclick:function(){addAI(inp.value.trim(),b)}});grid.append(h("div",{style:"text-align:center"},[b]))}
+    }
+  }
+  inp.oninput=draw;draw();
+}
+async function addAI(name,btn){
+  btn.disabled=true;btn.textContent="AI is searching…";
+  try{
+    var r=await askAI('Give info about the K-pop group named "'+name+'". Reply ONLY with JSON: {"found":true,"name":"","co":"agency","debut":2020,"fan":"fandom name","mem":["stage names of members"]}. If the group does not exist or you are not sure, set found=false. Do not make things up.');
+    if(r.found&&r.mem&&r.mem.length){
+      var g={name:r.name||name,co:r.co||"-",debut:r.debut||"-",fan:r.fan||"-",type:"Group",mem:r.mem.map(function(n){return{n:n,real:"",born:"",pos:""}})};
+      G.push(g);extra.push(g);save("kz_groups",extra);go(["g",g.name]);
+    }else btn.textContent="AI couldn't find this group";
+  }catch(e){btn.disabled=false;btn.textContent="Failed: "+e.message}
+}
+
+// ====== SCREEN: AGENCIES ======
+function agencies(){
+  app.replaceChildren();
+  var list=agencyList(),grid=h("div",{class:"grid"});
+  list.forEach(function(a){
+    var ph=h("div",{class:"ph",textContent:initials(a.name)});
+    var par=(AG[a.name]||{}).parent;
+    grid.append(h("button",{class:"mcard",onclick:function(){go(["a",a.name])}},[ph,h("b",{textContent:a.name}),
+      h("small",{textContent:a.acts.length+(a.acts.length>1?" acts":" act")+(par?" · "+par:"")})]));
+  });
+  app.append(h("div",{class:"title"},["Entertainment ",h("span",{textContent:"agencies"})]),
+    h("div",{class:"mu",textContent:list.length+" agencies"}),grid);
+}
+function agency(name){
+  app.replaceChildren();
+  var I=AG[name]||{},acts=G.filter(function(g){return g.co===name});
+  var grid=h("div",{class:"grid"});acts.forEach(function(g){grid.append(actCard(g))});
+  app.append(
+    h("button",{class:"pill",textContent:"← All agencies",onclick:function(){go(["a"])}}),
+    h("div",{class:"hero"},[h("div",{class:"bg"}),h("div",{class:"c"},[h("div",{class:"ph pic",textContent:initials(name)}),
+      h("div",{},[h("h1",{textContent:name}),h("div",{class:"mu",textContent:I.parent?"Part of "+I.parent:"Independent label"})])])]),
+    h("div",{class:"stats"},[stat("Founded",I.founded),stat("Founder",I.founder),stat("Parent company",I.parent||"-"),stat("Acts here",acts.length)]),
+    h("div",{class:"sec"},[h("h2",{textContent:"Artists"})]),grid);
+}
+
+// ====== SCREEN: GROUP / SOLOIST DETAIL ======
+function detail(g){
+  app.replaceChildren();
+  var solo=g.type==="Soloist",m0=g.mem[0]||{};
+  var nb=h("div");
+  var upd=h("button",{class:"btn",textContent:news[g.name]?"Refresh news":"Load latest news",onclick:function(){loadNews(g,nb,upd)}});
+  var bg=h("div",{class:"bg"}),pic=h("div",{class:"ph pic"});
+  paint(bg,gq(g),"");paint(pic,gq(g),g.name);
+  app.append(
+    h("button",{class:"pill",textContent:"← Back",onclick:function(){history.back()}}),
+    h("div",{class:"hero"},[bg,h("div",{class:"c"},[pic,h("div",{},[h("h1",{textContent:g.name}),
+      h("button",{class:"pill",style:"margin-top:8px",textContent:"🏢 "+g.co,onclick:function(){go(["a",g.co])}})])])]),
+    h("div",{class:"stats"},solo?
+      [stat("Type","Soloist"),stat("Debut",g.debut),stat("Real name",m0.real),stat("Birthday",fmt(m0.born)),stat("Age",age(m0.born)),stat("Position",m0.pos),stat("Fandom",g.fan),stat("Agency",g.co)]:
+      [stat("Debut",g.debut),stat("Fandom",g.fan),stat("Members",g.mem.length),stat("Agency",g.co)]));
+  if(!solo)app.append(
+    h("div",{class:"sec"},[h("h2",{textContent:"Members"})]),
+    h("div",{class:"grid"},g.mem.map(function(m,i){
+      var ph=h("div",{class:"ph"});paint(ph,mq(g,m),m.n);
+      return h("button",{class:"mcard",onclick:function(){go(["m",g.name,i])}},[ph,h("b",{textContent:m.n}),h("small",{textContent:m.pos||""})]);
+    })));
+  app.append(
+    h("div",{class:"sec"},[h("h2",{textContent:"Latest News"}),upd]),
+    h("div",{class:"note",textContent:"Found and written by AI using web search. Always check official sources."}),
+    nb);
+  if(news[g.name])showNews(news[g.name],nb);
+}
+
+// ====== SCREEN: MEMBER DETAIL ======
+function memberPage(g,i){
+  var m=g.mem[i];app.replaceChildren();
+  var prev=g.mem[i-1],next=g.mem[i+1];
+  var bg=h("div",{class:"bg"}),pic=h("div",{class:"ph pic round"});
+  paint(bg,mq(g,m),"");paint(pic,mq(g,m),m.n);
+  app.append(
+    h("button",{class:"pill",textContent:"← "+g.name,onclick:function(){go(["g",g.name])}}),
+    h("div",{class:"hero m"},[bg,h("div",{class:"c"},[pic,h("div",{},[h("h1",{textContent:m.n}),h("div",{class:"mu",textContent:g.name+" · "+g.co})])])]),
+    h("div",{class:"stats"},[stat("Real name",m.real),stat("Birthday",fmt(m.born)),stat("Age",age(m.born)),stat("Position",m.pos)]),
+    h("div",{class:"nav"},[
+      prev?h("button",{class:"pill",textContent:"← "+prev.n,onclick:function(){go(["m",g.name,i-1])}}):h("span"),
+      next?h("button",{class:"pill",textContent:next.n+" →",onclick:function(){go(["m",g.name,i+1])}}):h("span")]));
+}
+
+// ====== LATEST NEWS ======
+function showNews(list,box){
+  box.replaceChildren();
+  list.forEach(function(n){var t=["album","issue","activity"].indexOf(n.type)>-1?n.type:"activity";
+    box.append(h("div",{class:"nw "+t},[
+      h("span",{class:"tag",textContent:t.toUpperCase()}),
+      h("div",{},[h("b",{textContent:n.title})]),h("div",{textContent:n.summary}),
+      h("small",{class:"note",textContent:n.date||""})]))});
+}
+async function loadNews(g,box,btn){
+  btn.disabled=true;btn.textContent="AI is searching…";
+  try{
+    var r=await askAI('Find the latest news about the K-pop act '+g.name+': new albums/comebacks, new issues/controversies, and other activities. Reply ONLY with a JSON array of at most 5 items: [{"type":"album"|"issue"|"activity","title":"","summary":"1-2 sentences in English","date":"date/month"}]. Do not make things up.');
+    news[g.name]=r;save("kz_news_en",news);showNews(r,box);btn.textContent="Refresh news";
+  }catch(e){box.textContent="Failed: "+e.message;btn.textContent="Try again"}
+  btn.disabled=false;
+}
+route();
+</script></body></html>
